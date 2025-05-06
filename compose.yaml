@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  www:
+    build: docker/php
+    container_name: studi_phpunit_php
+    ports:
+      - 8741:80
+    volumes:
+      - ./:/var/www
+      - ./docker/php/vhosts:/etc/apache2/sites-enabled
+    networks:
+      - studi_phpunit
+
+  mysql:
+    image: mysql
+    container_name: studi_phpunit_mysql
+    volumes:
+      - ./var/db_data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    networks:
+      - studi_phpunit
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: studi_phpunit_phpmyadmin
+    depends_on:
+      - mysql
+    ports:
+      - 8080:80
+    networks:
+      - studi_phpunit
+    environment:
+      PMA_HOST: mysql
+
+networks:
+  studi_phpunit:
