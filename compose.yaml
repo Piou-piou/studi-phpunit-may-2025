@@ -2,13 +2,13 @@ version: "3.8"
 
 services:
   www:
-    build: docker/php
+    build: docker
     container_name: studi_phpunit_php
     ports:
       - 8741:80
     volumes:
       - ./:/var/www
-      - ./docker/php/vhosts:/etc/apache2/sites-enabled
+      - ./docker/vhosts:/etc/apache2/sites-enabled
     networks:
       - studi_phpunit
 
